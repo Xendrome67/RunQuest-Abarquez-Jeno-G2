@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - IM2 Project{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                {% if user.profile_photo %}
+                <img src="{{ user.profile_photo.url }}" alt="{{ user.username }}" class="rounded-circle mb-3" width="150" height="150" style="object-fit: cover;">
+                {% else %}
+                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 150px; height: 150px; font-size: 4rem;">
+                    {{ user.username|first|upper }}
+                </div>
+                {% endif %}
+                <h3 class="mb-1">{{ user.get_full_name|default:user.username }}</h3>
+                <p class="text-muted mb-1">@{{ user.username }}</p>
+                <span class="badge bg-{% if user.is_admin %}danger{% else %}primary{% endif %} fs-6">
+                    <i class="bi bi-{% if user.is_admin %}shield-lock{% else %}person{% endif %} me-1"></i>{{ user.get_role_display }}
+                </span>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil me-2"></i>Edit Profile
+                    </a>
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white border-0">
+                <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>Profile Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Username</label>
+                        <p class="mb-0 fw-medium">{{ user.username }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Role</label>
+                        <p class="mb-0 fw-medium">{{ user.get_role_display }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">First Name</label>
+                        <p class="mb-0 fw-medium">{{ user.first_name|default:"Not set" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Last Name</label>
+                        <p class="mb-0 fw-medium">{{ user.last_name|default:"Not set" }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Email</label>
+                        <p class="mb-0 fw-medium">{{ user.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Phone</label>
+                        <p class="mb-0 fw-medium">{{ user.phone|default:"Not set" }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Date Joined</label>
+                        <p class="mb-0 fw-medium">{{ user.date_joined|date:"F d, Y" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Last Login</label>
+                        <p class="mb-0 fw-medium">{{ user.last_login|date:"F d, Y H:i"|default:"Never" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

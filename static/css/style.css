@@ -1,0 +1,133 @@
+/* Custom Styles for IM2 Project */
+
+/* Form enhancements */
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Card hover effects */
+.card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Button enhancements */
+.btn {
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Navbar enhancements */
+.navbar-brand {
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.02);
+}
+
+.nav-link {
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Alert animations */
+.alert {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Profile photo */
+.profile-photo {
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Table enhancements */
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Badge improvements */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid #dee2e6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .btn,
+    footer {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+    }
+}
