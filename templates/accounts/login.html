@@ -1,63 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Login - IM2 Project{% endblock %}
+{% block title %}Player Login - RunQuest{% endblock %}
 
-{% block main_class %}container py-5{% endblock %}
+{% block main_class %}container py-5 d-flex align-items-center justify-content-center{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white text-center py-4">
-                <h3 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Welcome Back</h3>
+<div class="row justify-content-center w-100">
+    <div class="col-md-7 col-lg-5 col-xl-4">
+        <!-- RunQuest Login Card -->
+        <div class="card rq-auth-card">
+            <div class="rq-auth-header">
+                <div class="rq-brand-icon mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.6rem;">
+                    <i class="bi bi-compass-fill"></i>
+                </div>
+                <h3 class="mb-1 text-white">Welcome, Runner</h3>
+                <p class="text-white-50 small mb-0">Ready for your route? Sign in to resume your quest.</p>
             </div>
-            <div class="card-body p-4">
-                <p class="text-center text-muted mb-4">Sign in to access your dashboard.</p>
-
+            
+            <div class="card-body p-4 p-sm-5">
                 <form method="post" novalidate>
                     {% csrf_token %}
 
                     {% if form.non_field_errors %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger py-2 px-3 small border-0 mb-4" style="border-radius: var(--rq-radius-sm);">
                         {% for error in form.non_field_errors %}
-                        <div>{{ error }}</div>
+                        <div><i class="bi bi-exclamation-triangle-fill me-1"></i>{{ error }}</div>
                         {% endfor %}
                     </div>
                     {% endif %}
 
                     <div class="mb-3">
-                        <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold">Email or Username <span class="text-danger">*</span></label>
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            <i class="bi bi-person-fill text-muted me-1"></i>Email or Username <span class="text-danger">*</span>
+                        </label>
                         {{ form.username }}
                         {% if form.username.errors %}
-                        <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+                        <div class="text-danger small mt-1"><i class="bi bi-info-circle me-1"></i>{{ form.username.errors.0 }}</div>
                         {% endif %}
                     </div>
 
                     <div class="mb-3">
-                        <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                        <label for="{{ form.password.id_for_label }}" class="form-label">
+                            <i class="bi bi-lock-fill text-muted me-1"></i>Password <span class="text-danger">*</span>
+                        </label>
                         {{ form.password }}
                         {% if form.password.errors %}
-                        <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+                        <div class="text-danger small mt-1"><i class="bi bi-info-circle me-1"></i>{{ form.password.errors.0 }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="mb-3 form-check">
+                    <div class="mb-4 form-check">
                         {{ form.remember_me }}
-                        <label class="form-check-label" for="{{ form.remember_me.id_for_label }}">Remember me</label>
+                        <label class="form-check-label text-muted small" for="{{ form.remember_me.id_for_label }}">Keep me logged in</label>
                     </div>
 
-                    <div class="d-grid gap-2 mt-4">
+                    <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            <i class="bi bi-lightning-charge-fill me-1"></i>Start Questing
                         </button>
                     </div>
                 </form>
 
-                <div class="text-center mt-4">
-                    <p class="mb-0">Don't have an account? <a href="{% url 'accounts:register' %}" class="fw-semibold">Register</a></p>
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="mb-0 text-muted small">
+                        New to RunQuest? 
+                        <a href="{% url 'accounts:register' %}" class="fw-bold text-success text-decoration-none">
+                            Join the Adventure <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </p>
                 </div>
             </div>
+        </div>
+
+        <!-- Quest feature highlight pill -->
+        <div class="text-center mt-4">
+            <span class="badge bg-white text-muted border px-3 py-2 shadow-sm rounded-pill small">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i>POIs &bull; 
+                <i class="bi bi-trophy-fill text-warning me-1"></i>Challenges &bull; 
+                <i class="bi bi-award-fill text-info me-1"></i>Achievements
+            </span>
         </div>
     </div>
 </div>

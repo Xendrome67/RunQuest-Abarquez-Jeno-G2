@@ -1,121 +1,198 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Customer Dashboard - IM2 Project{% endblock %}
+{% block title %}Player Dashboard - RunQuest{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12">
-        <h2 class="fw-bold"><i class="bi bi-house-door me-2 text-primary"></i>Customer Dashboard</h2>
-        <p class="text-muted">Welcome back, {{ user.get_full_name|default:user.username }}! Here's your personalized overview.</p>
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <div class="d-flex align-items-center gap-3">
+            <div class="rq-stat-icon rq-icon-primary" style="width: 48px; height: 48px;">
+                <i class="bi bi-compass-fill fs-4"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold mb-0">Player Dashboard</h2>
+                <p class="text-muted mb-0">Welcome back, <strong>{{ user.get_full_name|default:user.username }}</strong>! Ready to embark on your next quest?</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{% url 'accounts:profile' %}" class="btn btn-outline-primary btn-sm me-1">
+            <i class="bi bi-person me-1"></i>Profile
+        </a>
+        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil me-1"></i>Edit Profile
+        </a>
     </div>
 </div>
 
-<!-- Welcome Card -->
-<div class="row mb-4">
+<!-- Player Status & Quest Stats Overview -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="rq-stat-card">
+            <div class="rq-stat-icon rq-icon-gold">
+                <i class="bi bi-trophy-fill"></i>
+            </div>
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">Total Points</small>
+                <h3 class="fw-bold mb-0 text-dark">0 <span class="fs-6 text-muted fw-normal">PTS</span></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="rq-stat-card">
+            <div class="rq-stat-icon rq-icon-primary">
+                <i class="bi bi-lightning-charge-fill"></i>
+            </div>
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">Active Quests</small>
+                <h3 class="fw-bold mb-0 text-dark">0 <span class="fs-6 text-muted fw-normal">/ 3 Max</span></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="rq-stat-card">
+            <div class="rq-stat-icon rq-icon-accent">
+                <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">POIs Visited</small>
+                <h3 class="fw-bold mb-0 text-dark">0 <span class="fs-6 text-muted fw-normal">POIs</span></h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="rq-stat-card">
+            <div class="rq-stat-icon rq-icon-fire">
+                <i class="bi bi-award-fill"></i>
+            </div>
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">Badges Earned</small>
+                <h3 class="fw-bold mb-0 text-dark">0 <span class="fs-6 text-muted fw-normal">Unlocked</span></h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Player Info Card & Quick Actions -->
+<div class="row g-4 mb-4">
     <div class="col-lg-8">
-        <div class="card shadow-sm border-0 h-100">
+        <div class="card h-100">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-person-badge me-2 text-primary"></i>Adventurer Card</h5>
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1">Active Player</span>
+            </div>
             <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-4">
                     {% if user.profile_photo %}
-                    <img src="{{ user.profile_photo.url }}" alt="" class="rounded-circle me-3" width="60" height="60" style="object-fit: cover;">
+                    <img src="{{ user.profile_photo.url }}" alt="{{ user.username }}" class="rounded-circle shadow-sm" width="70" height="70" style="object-fit: cover;">
                     {% else %}
-                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                    <div class="rq-avatar-circle" style="width: 70px; height: 70px; font-size: 1.8rem;">
                         {{ user.username|first|upper }}
                     </div>
                     {% endif %}
-                    <div>
-                        <h4 class="mb-0">Hello, {{ user.get_full_name|default:user.username }}!</h4>
-                        <p class="text-muted mb-0">Your account is active and ready to use.</p>
+                    <div class="text-center text-sm-start">
+                        <h4 class="mb-1 fw-bold">{{ user.get_full_name|default:user.username }}</h4>
+                        <p class="text-muted mb-0 small">
+                            <span class="badge bg-dark me-1">{{ user.get_role_display }}</span> &bull; 
+                            Member since {{ user.date_joined|date:"F Y" }}
+                        </p>
                     </div>
                 </div>
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded">
-                            <h5 class="fw-bold text-primary mb-0">{{ user.date_joined|date:"Y" }}</h5>
-                            <small class="text-muted">Member Since</small>
+
+                <div class="row g-2 text-center">
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3">
+                            <small class="text-muted d-block mb-1">Account Role</small>
+                            <span class="fw-bold text-dark">{{ user.get_role_display }}</span>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded">
-                            <h5 class="fw-bold text-success mb-0">Active</h5>
-                            <small class="text-muted">Account Status</small>
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3">
+                            <small class="text-muted d-block mb-1">Status</small>
+                            <span class="fw-bold text-success"><i class="bi bi-check-circle-fill me-1"></i>Active</span>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded">
-                            <h5 class="fw-bold text-info mb-0">{{ user.last_login|date:"M d"|default:"Today" }}</h5>
-                            <small class="text-muted">Last Visit</small>
+                    <div class="col-sm-4">
+                        <div class="p-3 bg-light rounded-3">
+                            <small class="text-muted d-block mb-1">Last Active</small>
+                            <span class="fw-bold text-dark">{{ user.last_login|date:"M d, Y"|default:"First Session" }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-lg-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-header bg-white border-0">
-                <h6 class="mb-0"><i class="bi bi-person-badge me-2"></i>Account Info</h6>
+        <div class="card h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-card-checklist me-2 text-muted"></i>Profile Details</h5>
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><strong>Username:</strong> {{ user.username }}</li>
-                    <li class="mb-2"><strong>Email:</strong> {{ user.email }}</li>
-                    <li class="mb-2"><strong>Phone:</strong> {{ user.phone|default:"Not set" }}</li>
-                    <li class="mb-2"><strong>Role:</strong> <span class="badge bg-primary">{{ user.get_role_display }}</span></li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Username:</span>
+                        <strong class="text-dark small">@{{ user.username }}</strong>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Email:</span>
+                        <strong class="text-dark small text-truncate ms-2">{{ user.email }}</strong>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Phone:</span>
+                        <strong class="text-dark small">{{ user.phone|default:"Not specified" }}</strong>
+                    </li>
+                    <li class="d-flex justify-content-between py-2">
+                        <span class="text-muted small">Verification:</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary small">GPS & QR Ready</span>
+                    </li>
                 </ul>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="{% url 'accounts:profile' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-person me-1"></i>View Profile
-                    </a>
-                    <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-pencil me-1"></i>Edit Profile
-                    </a>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Features/Services Section -->
+<!-- Quest Hub / Features Preview Section -->
 <div class="row">
     <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-white border-0">
-                <h5 class="mb-0"><i class="bi bi-grid me-2"></i>Available Services</h5>
+        <div class="card">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-grid-fill me-2 text-primary"></i>RunQuest Hub</h5>
+                <small class="text-muted">Core Features Overview</small>
             </div>
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 bg-light">
+                        <div class="card h-100 border bg-light rq-interactive">
                             <div class="card-body text-center p-4">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-box-seam fs-3"></i>
+                                <div class="rq-stat-icon rq-icon-accent mx-auto mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-geo-alt-fill fs-3"></i>
                                 </div>
-                                <h6 class="fw-bold">My Orders</h6>
-                                <p class="text-muted small mb-0">View and track your orders</p>
+                                <h6 class="fw-bold mb-1">Points of Interest</h6>
+                                <p class="text-muted small mb-0">Explore predefined POIs, landmarks, and routes around you.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 bg-light">
+                        <div class="card h-100 border bg-light rq-interactive">
                             <div class="card-body text-center p-4">
-                                <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-heart fs-3"></i>
+                                <div class="rq-stat-icon rq-icon-primary mx-auto mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-lightning-charge-fill fs-3"></i>
                                 </div>
-                                <h6 class="fw-bold">Wishlist</h6>
-                                <p class="text-muted small mb-0">Manage your saved items</p>
+                                <h6 class="fw-bold mb-1">Location Challenges</h6>
+                                <p class="text-muted small mb-0">Join up to 3 quests, reach the POI, and verify via GPS or QR code.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card h-100 border-0 bg-light">
+                        <div class="card h-100 border bg-light rq-interactive">
                             <div class="card-body text-center p-4">
-                                <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                                    <i class="bi bi-gear fs-3"></i>
+                                <div class="rq-stat-icon rq-icon-gold mx-auto mb-3" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-award-fill fs-3"></i>
                                 </div>
-                                <h6 class="fw-bold">Settings</h6>
-                                <p class="text-muted small mb-0">Manage your preferences</p>
+                                <h6 class="fw-bold mb-1">Points & Badges</h6>
+                                <p class="text-muted small mb-0">Earn bonus points within 24 hours and unlock milestone achievements.</p>
                             </div>
                         </div>
                     </div>
